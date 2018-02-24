@@ -1,5 +1,5 @@
 # hetzner\_pacemaker
-Hetzner Cloud floating ip resource and api stonith device
+Hetzner Cloud floating ip resource and api stonith device  
 No installation routine is provided as I use it by copying the files via
 ansible.  
 Pathes mentioned here are taken from debian 9 and might differ for other
@@ -18,7 +18,7 @@ floating ip to the host which it is run on.
 to work.
 
 It is ment to reside in /usr/lib/ocf/resource.d/hetzner/ and used as
-ocf:hetzner:FloatingIP
+ocf:hetzner:FloatingIP  
 It takes the following parameters:
 - ip: Ip-Address of the floating ip to be managed
 - api\_token: An api token with which the cloud api can be accessed to manage the
