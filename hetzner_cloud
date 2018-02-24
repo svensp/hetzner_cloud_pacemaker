@@ -3,7 +3,7 @@
 #   External STONITH module for Hetzner Cloud.
 #
 #   License:      MIT License (MIT)
-#   (c) 2018-2018 Sven Speckmaier
+#   (c) 2018      Sven Speckmaier
 #
 #   Thank you to Raoul Scarazzini for writing the external/hetzner STONITH
 #   module which served as reference and inspiration for this

@@ -3,7 +3,7 @@
 #   Resource Agent for managing hetzner cloud floating ip resources.
 #
 #   License:      MIT License (MIT)
-#   (c) 2018-2018 Sven Speckmaier
+#   (c) 2018      Sven Speckmaier
 #
 #   Thank you to Tuomo Soini and Lars Marowsky-Brée for writing the IPaddr2
 #   ressource agent which served as reference and inspiration for this
