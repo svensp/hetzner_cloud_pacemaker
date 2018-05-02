@@ -1,4 +1,4 @@
-# hetzner\_pacemaker
+# hetzner\_cloud\_pacemaker
 Hetzner Cloud floating ip resource and api stonith device  
 No installation routine is provided as I use it by copying the files via
 ansible.  
