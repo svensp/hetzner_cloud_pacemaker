@@ -3,7 +3,7 @@
 #   Resource Agent for managing hetzner cloud floating ip resources.
 #
 #   License:      MIT License (MIT)
-#   (c) 2018      Sven Speckmaier
+#   (c) 2018-2018 Sven Speckmaier
 #
 #   Thank you to Tuomo Soini and Lars Marowsky-Brée for writing the IPaddr2
 #   ressource agent which served as reference and inspiration for this
@@ -118,14 +118,14 @@ END
 }
 
 ip_start() {
-	if ! ( curl -f -s -X POST \
+	while ! ( curl -f -s -X POST \
 	  	-H "Content-Type: application/json" \
 	  	-H "Authorization: Bearer $API_TOKEN"  \
 		  -d '{"server":'$SERVER_ID'}' \
 		    "https://api.hetzner.cloud/v1/floating_ips/${FLOATING_IP_ID}/actions/assign" \
-			 > /dev/null ) ; then
-		exit $OCF_ERR_GENERIC
-	fi
+			 > /dev/null ) ; do
+		sleep 1s
+	done
 
 	exit $OCF_SUCCESS
 }
@@ -135,10 +135,11 @@ ip_stop() {
 		exit $OCF_SUCCESS
 	fi
 
-	ocf_run -q curl -f -s -X POST -H "Content-Type: application/json" -H \
+	while ! ocf_run -q curl -f -s -X POST -H "Content-Type: application/json" -H \
 		"Authorization: Bearer $API_TOKEN" \
-		"https://api.hetzner.cloud/v1/floating_ips/${FLOATING_IP_ID}/actions/unassign" \
-	  	|| exit $OCF_ERR_GENERIC
+		"https://api.hetzner.cloud/v1/floating_ips/${FLOATING_IP_ID}/actions/unassign"
+	do sleep 1s
+	done
 
 	exit $OCF_SUCCESS
 }

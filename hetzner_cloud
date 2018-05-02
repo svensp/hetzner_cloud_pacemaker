@@ -3,7 +3,7 @@
 #   External STONITH module for Hetzner Cloud.
 #
 #   License:      MIT License (MIT)
-#   (c) 2018      Sven Speckmaier
+#   (c) 2018-2018 Sven Speckmaier
 #
 #   Thank you to Raoul Scarazzini for writing the external/hetzner STONITH
 #   module which served as reference and inspiration for this
@@ -54,34 +54,42 @@ get_hosts() {
 power_on() {
 	SERVER_ID=$(hostname_to_id)
 
-	if ( curl -s -f -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $API_TOKEN" \
-		"$CLOUDAPI_URL/v1/servers/$SERVER_ID/actions/poweron" ) ; then
-		exit 0
-	fi
+	while ! curl -s -f -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $API_TOKEN" \
+		"$CLOUDAPI_URL/v1/servers/$SERVER_ID/actions/poweron" ; do
+		if [ "$(hostinfo status)" = "running" ] ; then
+			exit 0
+		fi
+		sleep 1
+	done
 
-	exit 1
+	exit 0
 }
 
 power_off() {
 	SERVER_ID=$(hostname_to_id)
 
-	if ( curl -s -f -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $API_TOKEN" \
-		"$CLOUDAPI_URL/v1/servers/$SERVER_ID/actions/poweroff" ) ; then
-		exit 0
-	fi
+	while ! ( curl -s -f -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $API_TOKEN" \
+		"$CLOUDAPI_URL/v1/servers/$SERVER_ID/actions/poweroff" ) ; do
 
-	exit 1
+		if [ "$(hostinfo status)" = "off" ] ; then
+			exit 0
+		fi
+
+		sleep 1
+	done
+
+	exit 0
 }
 
 reset() {
 	SERVER_ID=$(hostname_to_id)
 
-	if ( curl -s -f -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $API_TOKEN" \
-		"$CLOUDAPI_URL/v1/servers/$SERVER_ID/actions/reset" ) ; then
-		exit 0
-	fi
+	while ! ( curl -s -f -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $API_TOKEN" \
+		"$CLOUDAPI_URL/v1/servers/$SERVER_ID/actions/reset" ) ; do
+		sleep 1
+	done
 
-	exit 1
+	exit 0
 }
 
 status() {
@@ -167,7 +175,6 @@ CLOUDXML
 case $1 in
 gethosts)
 	get_hosts
-        echo $hostname
 	exit 0
 	;;
 on)
