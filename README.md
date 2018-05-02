@@ -10,6 +10,14 @@ Both scripts require curl and python3
 Both require python3 despite being written in shell because a small python
 snippet is used to parse the json returned from the cloud api.
 
+## Recommendations
+Api requests will, at times, take too long to answer and thus get timed out by
+pacemaker. I have not yet found a concrete reason why this happens but I
+attribute it to the api being offline or the network connection to it not
+working.
+To circumvent this I recommend setting the `meta` attribute `fault-timeout`.  It
+causes pacemaker to forget about past errors after a number of seconds. 
+
 ## FloatingIP
 Is an ocf resource agent written in shell for pacemaker. It reroutes the
 floating ip to the host which it is run on.
