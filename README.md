@@ -1,3 +1,7 @@
+# DEPRECATED!
+This package is in the process of being rewritten in python: https://github.com/svensp/hcloud_ocf
+The reason for this is that it already requires python to parse the api response anyway, might as well write the whole thing in it to take advantage of OOP and better error handling via exceptions.
+
 # hetzner\_cloud\_pacemaker
 Hetzner Cloud floating ip resource and api stonith device  
 No installation routine is provided as I use it by copying the files via
